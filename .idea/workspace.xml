@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7b724a-c245-48e6-a469-b5f0c1bae382" name="Changes" comment="" />
+    <list default="true" id="0a7b724a-c245-48e6-a469-b5f0c1bae382" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/CFLogo.png" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +36,7 @@
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/a/Documents/GitHub/opprop-benchmarks.github.io/cf",
+    "last_opened_file_path": "/Users/a/Documents/GitHub/opprop-benchmarks.github.io",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
@@ -42,8 +44,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/cf" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/cf" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
