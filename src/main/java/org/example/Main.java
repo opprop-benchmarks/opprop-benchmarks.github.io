@@ -124,7 +124,7 @@ public class Main {
             String LatestCheckerFrameworkReleaseZip = String.valueOf(releaseFolder).split("/", 0)[String.valueOf(releaseFolder).split("/", 0).length-1] + ".zip";
             htmlString = htmlString.replace("$LatestCheckerFrameworkReleaseZip", LatestCheckerFrameworkReleaseZip);
 
-            String LatestCheckerFrameworkReleaseDownloadLink = "/cf/" + LatestCheckerFrameworkReleaseZip;
+            String LatestCheckerFrameworkReleaseDownloadLink = "../" + LatestCheckerFrameworkReleaseZip;
             htmlString = htmlString.replace("$LatestCheckerFrameworkReleaseDownloadLink", LatestCheckerFrameworkReleaseDownloadLink);
 
             String LatestCheckerFrameworkReleaseDate = String.valueOf(((JSONObject)((((JSONArray)((JSONObject) frameworkReleases.get(i)).get("assets")).get(0)))).get("created_at"));
@@ -138,51 +138,57 @@ public class Main {
 
         }
 
-        // Re-generate cf/index.html with latest release
-        File globalIndexHTML = new File(String.valueOf(directoryPath) + "/index.html");
-        if(globalIndexHTML.exists()){
-            FileUtils.forceDelete(globalIndexHTML);
-        }
-
+//        // Re-generate cf/index.html with latest release
+//        File globalIndexHTML = new File(String.valueOf(directoryPath) + "/index.html");
+//        if(globalIndexHTML.exists()){
+//            FileUtils.forceDelete(globalIndexHTML);
+//        }
+//
         File latestRelease = new File(String.valueOf(System.getProperty("user.dir")) + "/cf/" + String.valueOf(((JSONObject) frameworkReleases.get(0)).get("tag_name")));
-        File latestReleaseHTML = new File(String.valueOf(latestRelease) + "/index.html");
-        FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
+//        FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
 
 
-        // Get folders from latest release
-        File newExamples = new File(System.getProperty("user.dir") + "/cf/examples");
-        if(newExamples.exists()){
-            FileUtils.forceDelete(newExamples);
-        }
-        File newManual = new File(System.getProperty("user.dir") + "/cf/manual");
-        if(newManual.exists()){
-            FileUtils.forceDelete(newManual);
-        }
-        File newTutorial = new File(System.getProperty("user.dir") + "/cf/tutorial");
-        if(newTutorial.exists()){
-            FileUtils.forceDelete(newTutorial);
-        }
-        File newChangelog = new File(System.getProperty("user.dir") + "/cf/CHANGELOG.md");
-        if(newChangelog.exists()){
-            FileUtils.forceDelete(newChangelog);
-        }
-        File newJavadoc = new File(System.getProperty("user.dir") + "/cf/api");
-        if(newJavadoc.exists()){
-            FileUtils.forceDelete(newJavadoc);
-        }
-
-        File latestExamples = new File(String.valueOf(latestRelease) + "/docs/examples");
-        File latestManual = new File(String.valueOf(latestRelease) + "/docs/manual");
-        File latestTutorial = new File(String.valueOf(latestRelease) + "/docs/tutorial");
-        File latestChangelog = new File(String.valueOf(latestRelease) + "/docs/CHANGELOG.md");
-        File latestJavadoc = new File(String.valueOf(latestRelease) + "/api");
+        File htmlTemplateFile = new File(System.getProperty("user.dir") + "/redirect.html");
+        String htmlString = FileUtils.readFileToString(htmlTemplateFile);
+        htmlString = htmlString.replace("$LatestFrameworkRelease", String.valueOf(latestRelease).split("/", 0)[String.valueOf(latestRelease).split("/", 0).length-1]);
+        File globalHTML = new File(System.getProperty("user.dir") + "/index.html");
+        FileUtils.writeStringToFile(globalHTML, htmlString);
 
 
-        FileUtils.copyDirectory(latestExamples, newExamples);
-        FileUtils.copyDirectory(latestManual, newManual);
-        FileUtils.copyDirectory(latestTutorial, newTutorial);
-        FileUtils.copyFile(latestChangelog, newChangelog);
-        FileUtils.copyDirectory(latestJavadoc, newJavadoc);
+//        // Get folders from latest release
+//        File newExamples = new File(System.getProperty("user.dir") + "/cf/examples");
+//        if(newExamples.exists()){
+//            FileUtils.forceDelete(newExamples);
+//        }
+//        File newManual = new File(System.getProperty("user.dir") + "/cf/manual");
+//        if(newManual.exists()){
+//            FileUtils.forceDelete(newManual);
+//        }
+//        File newTutorial = new File(System.getProperty("user.dir") + "/cf/tutorial");
+//        if(newTutorial.exists()){
+//            FileUtils.forceDelete(newTutorial);
+//        }
+//        File newChangelog = new File(System.getProperty("user.dir") + "/cf/CHANGELOG.md");
+//        if(newChangelog.exists()){
+//            FileUtils.forceDelete(newChangelog);
+//        }
+//        File newJavadoc = new File(System.getProperty("user.dir") + "/cf/api");
+//        if(newJavadoc.exists()){
+//            FileUtils.forceDelete(newJavadoc);
+//        }
+//
+//        File latestExamples = new File(String.valueOf(latestRelease) + "/docs/examples");
+//        File latestManual = new File(String.valueOf(latestRelease) + "/docs/manual");
+//        File latestTutorial = new File(String.valueOf(latestRelease) + "/docs/tutorial");
+//        File latestChangelog = new File(String.valueOf(latestRelease) + "/docs/CHANGELOG.md");
+//        File latestJavadoc = new File(String.valueOf(latestRelease) + "/api");
+//
+//
+//        FileUtils.copyDirectory(latestExamples, newExamples);
+//        FileUtils.copyDirectory(latestManual, newManual);
+//        FileUtils.copyDirectory(latestTutorial, newTutorial);
+//        FileUtils.copyFile(latestChangelog, newChangelog);
+//        FileUtils.copyDirectory(latestJavadoc, newJavadoc);
 
 
         System.out.println("Latest release: " + String.valueOf(latestRelease));
@@ -301,7 +307,7 @@ public class Main {
 
         }
 
-        // Re-generate cf/annotation-file-utilities.html with latest release
+        // Re-generate afu/annotation-file-utilities.html with latest release
         File globalIndexHTML = new File(String.valueOf(directoryPath) + "/annotation-file-utilities.html");
         if(globalIndexHTML.exists()){
             FileUtils.forceDelete(globalIndexHTML);
@@ -314,34 +320,25 @@ public class Main {
 
         System.out.println("Latest release: " + String.valueOf(latestRelease));
 
-
-        // Re-generate cf/index.html with latest release
-        File newHTML = new File(System.getProperty("user.dir") + "/cf/index.html");
-
-        // Copy cf/index.html to global for GitHub Pages
-        File globalIndex = new File(System.getProperty("user.dir") + "/index.html");
-        FileUtils.copyFile(newHTML, globalIndex);
-
-        String htmlString = FileUtils.readFileToString(newHTML);
+        File latestCheckerFrameworkRelease = new File(String.valueOf(System.getProperty("user.dir")) + "/cf/checker-framework-" + String.valueOf(((JSONObject) frameworkReleases.get(0)).get("tag_name")) + "/index.html");
+        String htmlString = FileUtils.readFileToString(latestCheckerFrameworkRelease);
 
         //$LatestAnnotationFileUtilitiesReleaseDownloadLink, $LatestAnnotationFileUtilitiesReleaseZip, $LatestAnnotationFileUtilitiesReleaseDate
 
         String LatestAnnotationFileUtilitiesReleaseZip = String.valueOf(latestRelease).split("/", 0)[String.valueOf(latestRelease).split("/", 0).length-1] + ".zip";
         htmlString = htmlString.replace("$LatestAnnotationFileUtilitiesReleaseZip", LatestAnnotationFileUtilitiesReleaseZip);
 
-        String LatestAnnotationFileUtilitiesReleaseDownloadLink = "/afu/" + LatestAnnotationFileUtilitiesReleaseZip;
+        String LatestAnnotationFileUtilitiesReleaseDownloadLink = "../../afu/" + LatestAnnotationFileUtilitiesReleaseZip;
         htmlString = htmlString.replace("$LatestAnnotationFileUtilitiesReleaseDownloadLink", LatestAnnotationFileUtilitiesReleaseDownloadLink);
 
         String LatestAnnotationFileUtilitiesReleaseDate = String.valueOf(((JSONObject)((((JSONArray)((JSONObject) frameworkReleases.get(0)).get("assets")).get(0)))).get("created_at"));
         LatestAnnotationFileUtilitiesReleaseDate = getReadableDate(LatestAnnotationFileUtilitiesReleaseDate);
         htmlString = htmlString.replace("$LatestAnnotationFileUtilitiesReleaseDate", LatestAnnotationFileUtilitiesReleaseDate);
 
-        if(newHTML.exists()){
-            FileUtils.forceDelete(newHTML);
-        }
-        FileUtils.writeStringToFile(newHTML, htmlString);
+        FileUtils.writeStringToFile(latestCheckerFrameworkRelease, htmlString);
 
     }
+
 
     static String getReadableDate(String autoDate){
         String[] splitDate = autoDate.split("-", 0);
