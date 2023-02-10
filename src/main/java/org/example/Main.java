@@ -318,10 +318,6 @@ public class Main {
         // Re-generate cf/index.html with latest release
         File newHTML = new File(System.getProperty("user.dir") + "/cf/index.html");
 
-        // Copy cf/index.html to global for GitHub Pages
-        File globalIndex = new File(System.getProperty("user.dir") + "/index.html");
-        FileUtils.copyFile(newHTML, globalIndex);
-
         String htmlString = FileUtils.readFileToString(newHTML);
 
         //$LatestAnnotationFileUtilitiesReleaseDownloadLink, $LatestAnnotationFileUtilitiesReleaseZip, $LatestAnnotationFileUtilitiesReleaseDate
@@ -340,6 +336,11 @@ public class Main {
             FileUtils.forceDelete(newHTML);
         }
         FileUtils.writeStringToFile(newHTML, htmlString);
+
+        // Copy cf/index.html to global for GitHub Pages
+        File globalIndex = new File(System.getProperty("user.dir") + "/index.html");
+        FileUtils.copyFile(newHTML, globalIndex);
+
 
     }
 
