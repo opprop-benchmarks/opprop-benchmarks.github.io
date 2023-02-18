@@ -1,6 +1,10 @@
 name: Copy To Branches
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'template.html'
 jobs:
   copy-to-branches:
     runs-on: ubuntu-latest
