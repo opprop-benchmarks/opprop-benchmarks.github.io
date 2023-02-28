@@ -20,16 +20,28 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        File directoryPath = new File(System.getProperty("user.dir") + "/cf");
+        File directoryPath = new File(System.getProperty("user.dir") + "/myblog/cf");
 
         // Get list of framework releases
         URL listReleasesURL = new URL("https://api.github.com/repos/eisop/checker-framework/releases");
         JSONArray frameworkReleases = getAPIResponse(listReleasesURL, "GET");
 
+        File releaseFile = new File(System.getProperty("user.dir") + "/myblog/cf/releases/releases.md");
+        String releaseFileHTML = "---\n" +
+                "layout: default\n" +
+                "title: Releases\n" +
+                "---\n" +
+                "![Checker Framework logo](../CFLogo.png)\n" +
+                "Previous Checker Framework Releases\n" +
+                "=====================\n";
+
+
+
         // Loop through list of framework releases
         for (int i = 0; i < frameworkReleases.size(); i++) {
 
             JSONObject LatestReleaseData = (JSONObject) frameworkReleases.get(i);
+            releaseFileHTML += "[" + String.valueOf(((JSONObject) frameworkReleases.get(i)).get("tag_name")) + "](../" + String.valueOf(((JSONObject) frameworkReleases.get(i)).get("tag_name")) + "/index.html)\n";
 
             // Get data on release assets
             JSONObject LatestAssetsData = (JSONObject)((((JSONArray)((JSONObject) frameworkReleases.get(i)).get("assets")).get(0)));
@@ -66,7 +78,7 @@ public class Main {
             System.out.println("Downloading " + String.valueOf(FILE_TEST));
             System.out.println("");
 
-            // Unzip downloaded assets, move them to /cf
+            // Unzip downloaded assets, move them to /myblog/cf
             File unzippedFile = new File(String.valueOf(LatestAssetsData.get("name")).substring(0, String.valueOf(LatestAssetsData.get("name")).length() - 4));
             try {
                 ZipFile zipFile = new ZipFile(FILE_TEST);
@@ -81,8 +93,8 @@ public class Main {
             FileUtils.moveDirectoryToDirectory(unzippedFile, directoryPath, false);
 
             // Remove assets folder from enclosing folder
-            File copyFolder = new File(System.getProperty("user.dir") + "/cf/" + String.valueOf(unzippedFile));
-            File copyFolderRename = new File(System.getProperty("user.dir") + "/cf/" + String.valueOf(unzippedFile) + "_copy");
+            File copyFolder = new File(System.getProperty("user.dir") + "/myblog/cf/" + String.valueOf(unzippedFile));
+            File copyFolderRename = new File(System.getProperty("user.dir") + "/myblog/cf/" + String.valueOf(unzippedFile) + "_copy");
             copyFolder.renameTo(copyFolderRename);
             File innerFolder = new File(String.valueOf(copyFolderRename) + "/" + String.valueOf(unzippedFile));
             FileUtils.moveDirectoryToDirectory(innerFolder, directoryPath, false);
@@ -133,10 +145,45 @@ public class Main {
 
             FileUtils.writeStringToFile(newHTML, htmlString);
 
-            File releaseArchiveHTML = new File(System.getProperty("user.dir") + "/cf/releases/" + String.valueOf(releaseFolder).split("/", 0)[String.valueOf(releaseFolder).split("/", 0).length-1] + ".html");
+            File releaseArchiveHTML = new File(System.getProperty("user.dir") + "/myblog/cf/releases/" + String.valueOf(releaseFolder).split("/", 0)[String.valueOf(releaseFolder).split("/", 0).length-1] + ".html");
             FileUtils.copyFile(newHTML, releaseArchiveHTML);
 
+//            // Set the path to the directory to search
+//            String directoryPath = "/path/to/directory";
+
+            // Find the subdirectories and files to move
+            String examplesString = String.valueOf(releaseFolder) + "/docs/examples";
+            File examplesDirectory = new File(examplesString);
+            String manualString = String.valueOf(releaseFolder) + "/docs/manual";
+            File manualDirectory = new File(manualString);
+            String tutorialString = String.valueOf(releaseFolder) + "/docs/tutorial";
+            File tutorialDirectory = new File(tutorialString);
+            String changeLogString = String.valueOf(releaseFolder) + "/docs/CHANGELOG.md";
+            File changelogFile = new File(changeLogString);
+            String logoString = String.valueOf(releaseFolder) + "/tutorial/CFLogo.png";
+            File logoFile = new File(logoString);
+
+            // Move the subdirectories and files to the root of the directory
+            if (examplesDirectory.exists()) {
+                FileUtils.moveDirectoryToDirectory(examplesDirectory, releaseFolder, true);
+            }
+            if (manualDirectory.exists()) {
+                FileUtils.moveDirectoryToDirectory(manualDirectory, releaseFolder, true);
+            }
+            if (tutorialDirectory.exists()) {
+                FileUtils.moveDirectoryToDirectory(tutorialDirectory, releaseFolder, true);
+            }
+            if (changelogFile.exists()) {
+                FileUtils.moveFileToDirectory(changelogFile, releaseFolder, true);
+            }
+            if (logoFile.exists()) {
+                FileUtils.copyFileToDirectory(logoFile, releaseFolder);
+            }
+
         }
+
+        // Write HTML to releases/releases.md
+        FileUtils.writeStringToFile(releaseFile, releaseFileHTML);
 
         // Re-generate cf/index.html with latest release
         File globalIndexHTML = new File(String.valueOf(directoryPath) + "/index.html");
@@ -144,37 +191,37 @@ public class Main {
             FileUtils.forceDelete(globalIndexHTML);
         }
 
-        File latestRelease = new File(String.valueOf(System.getProperty("user.dir")) + "/cf/" + String.valueOf(((JSONObject) frameworkReleases.get(0)).get("tag_name")));
+        File latestRelease = new File(String.valueOf(System.getProperty("user.dir")) + "/myblog/cf/" + String.valueOf(((JSONObject) frameworkReleases.get(0)).get("tag_name")));
         File latestReleaseHTML = new File(String.valueOf(latestRelease) + "/index.html");
         FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
 
 
         // Get folders from latest release
-        File newExamples = new File(System.getProperty("user.dir") + "/cf/examples");
+        File newExamples = new File(System.getProperty("user.dir") + "/myblog/cf/examples");
         if(newExamples.exists()){
             FileUtils.forceDelete(newExamples);
         }
-        File newManual = new File(System.getProperty("user.dir") + "/cf/manual");
+        File newManual = new File(System.getProperty("user.dir") + "/myblog/cf/manual");
         if(newManual.exists()){
             FileUtils.forceDelete(newManual);
         }
-        File newTutorial = new File(System.getProperty("user.dir") + "/cf/tutorial");
+        File newTutorial = new File(System.getProperty("user.dir") + "/myblog/cf/tutorial");
         if(newTutorial.exists()){
             FileUtils.forceDelete(newTutorial);
         }
-        File newChangelog = new File(System.getProperty("user.dir") + "/cf/CHANGELOG.md");
+        File newChangelog = new File(System.getProperty("user.dir") + "/myblog/cf/CHANGELOG.md");
         if(newChangelog.exists()){
             FileUtils.forceDelete(newChangelog);
         }
-        File newJavadoc = new File(System.getProperty("user.dir") + "/cf/api");
+        File newJavadoc = new File(System.getProperty("user.dir") + "/myblog/cf/api");
         if(newJavadoc.exists()){
             FileUtils.forceDelete(newJavadoc);
         }
 
-        File latestExamples = new File(String.valueOf(latestRelease) + "/docs/examples");
-        File latestManual = new File(String.valueOf(latestRelease) + "/docs/manual");
-        File latestTutorial = new File(String.valueOf(latestRelease) + "/docs/tutorial");
-        File latestChangelog = new File(String.valueOf(latestRelease) + "/docs/CHANGELOG.md");
+        File latestExamples = new File(String.valueOf(latestRelease) + "/examples");
+        File latestManual = new File(String.valueOf(latestRelease) + "/manual");
+        File latestTutorial = new File(String.valueOf(latestRelease) + "/tutorial");
+        File latestChangelog = new File(String.valueOf(latestRelease) + "/CHANGELOG.md");
         File latestJavadoc = new File(String.valueOf(latestRelease) + "/api");
 
 
@@ -240,7 +287,7 @@ public class Main {
     }
 
     static void getAFU() throws IOException {
-        File directoryPath = new File(System.getProperty("user.dir") + "/afu");
+        File directoryPath = new File(System.getProperty("user.dir") + "/myblog/afu");
 
         // Get list of framework releases
         URL listReleasesURL = new URL("https://api.github.com/repos/eisop/annotation-tools/releases");
@@ -284,7 +331,7 @@ public class Main {
             System.out.println("Downloading " + String.valueOf(FILE_TEST));
             System.out.println("");
 
-            // Unzip downloaded assets, move them to /cf
+            // Unzip downloaded assets, move them to /myblog/cf
             File unzippedFile = new File(String.valueOf(LatestAssetsData.get("name")).substring(0, String.valueOf(LatestAssetsData.get("name")).length() - 4));
             try {
                 ZipFile zipFile = new ZipFile(FILE_TEST);
@@ -316,7 +363,7 @@ public class Main {
 
 
         // Re-generate cf/index.html with latest release
-        File newHTML = new File(System.getProperty("user.dir") + "/cf/index.html");
+        File newHTML = new File(System.getProperty("user.dir") + "/myblog/cf/index.html");
 
         String htmlString = FileUtils.readFileToString(newHTML);
 
@@ -337,6 +384,9 @@ public class Main {
         }
         FileUtils.writeStringToFile(newHTML, htmlString);
 
+
+
+
         // Copy cf/index.html to global for GitHub Pages
         File globalIndex = new File(System.getProperty("user.dir") + "/index.html");
         FileUtils.copyFile(newHTML, globalIndex);
@@ -356,16 +406,9 @@ public class Main {
         return month + " " + day + ", " + year;
     }
 
-    // Make sure to get correct HTML file (not tutorial) - GENERATE IT BASED ON checkerframework.org template for each one for release archive
-    // Ask about release archive. How does he want to implement it?
-    // Automate deployment to eisop.github.io (assets in a separate branch from main to not clog main/cf)
-    // Redo automatic replacement of latest release using HTML tags
-
-    // USER-WRITTEn files in main branch
-    // Auto-generated files in gh-pages
-    // Commit main.java to main branch, then run it on gh-pages branch to generate all ouput files including index.html (which GitHub pages will look at to generate website)
-    // README.md in main branch containgin latest release number, update will generate script
-    // Use 'symbolic' links through ln -s to link to pages
+   // Move architect theme to cf/index.html as well
+   // Markdown instead of HTML
+   // Is UnknnownInitialization allowed on fields?
 
 
 }
