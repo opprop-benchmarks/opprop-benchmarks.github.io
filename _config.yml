@@ -23,6 +23,7 @@ email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   The Enforcing, Inferring, and Synthesizing Optional Properties (EISOP) Framework project aims to provide a unified framework for optional properties in Java.
 baseurl: "opprop-benchmarks.github.io" # the subpath of your site, e.g. /blog
+#baseurl: ""
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll

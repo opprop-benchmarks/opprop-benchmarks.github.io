@@ -20,13 +20,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        File directoryPath = new File(System.getProperty("user.dir") + "/myblog/cf");
+        File directoryPath = new File(System.getProperty("user.dir") + "/cf");
 
         // Get list of framework releases
         URL listReleasesURL = new URL("https://api.github.com/repos/eisop/checker-framework/releases");
         JSONArray frameworkReleases = getAPIResponse(listReleasesURL, "GET");
 
-        File releaseFile = new File(System.getProperty("user.dir") + "/myblog/cf/releases/releases.md");
+        File releaseFile = new File(System.getProperty("user.dir") + "/cf/releases/releases.md");
         String releaseFileHTML = "---\n" +
                 "layout: default\n" +
                 "title: Releases\n" +
@@ -78,7 +78,7 @@ public class Main {
             System.out.println("Downloading " + String.valueOf(FILE_TEST));
             System.out.println("");
 
-            // Unzip downloaded assets, move them to /myblog/cf
+            // Unzip downloaded assets, move them to /cf
             File unzippedFile = new File(String.valueOf(LatestAssetsData.get("name")).substring(0, String.valueOf(LatestAssetsData.get("name")).length() - 4));
             try {
                 ZipFile zipFile = new ZipFile(FILE_TEST);
@@ -93,8 +93,8 @@ public class Main {
             FileUtils.moveDirectoryToDirectory(unzippedFile, directoryPath, false);
 
             // Remove assets folder from enclosing folder
-            File copyFolder = new File(System.getProperty("user.dir") + "/myblog/cf/" + String.valueOf(unzippedFile));
-            File copyFolderRename = new File(System.getProperty("user.dir") + "/myblog/cf/" + String.valueOf(unzippedFile) + "_copy");
+            File copyFolder = new File(System.getProperty("user.dir") + "/cf/" + String.valueOf(unzippedFile));
+            File copyFolderRename = new File(System.getProperty("user.dir") + "/cf/" + String.valueOf(unzippedFile) + "_copy");
             copyFolder.renameTo(copyFolderRename);
             File innerFolder = new File(String.valueOf(copyFolderRename) + "/" + String.valueOf(unzippedFile));
             FileUtils.moveDirectoryToDirectory(innerFolder, directoryPath, false);
@@ -145,7 +145,7 @@ public class Main {
 
             FileUtils.writeStringToFile(newHTML, htmlString);
 
-            File releaseArchiveHTML = new File(System.getProperty("user.dir") + "/myblog/cf/releases/" + String.valueOf(releaseFolder).split("/", 0)[String.valueOf(releaseFolder).split("/", 0).length-1] + ".html");
+            File releaseArchiveHTML = new File(System.getProperty("user.dir") + "/cf/releases/" + String.valueOf(releaseFolder).split("/", 0)[String.valueOf(releaseFolder).split("/", 0).length-1] + ".html");
             FileUtils.copyFile(newHTML, releaseArchiveHTML);
 
 //            // Set the path to the directory to search
@@ -191,29 +191,29 @@ public class Main {
             FileUtils.forceDelete(globalIndexHTML);
         }
 
-        File latestRelease = new File(String.valueOf(System.getProperty("user.dir")) + "/myblog/cf/" + String.valueOf(((JSONObject) frameworkReleases.get(0)).get("tag_name")));
+        File latestRelease = new File(String.valueOf(System.getProperty("user.dir")) + "/cf/" + String.valueOf(((JSONObject) frameworkReleases.get(0)).get("tag_name")));
         File latestReleaseHTML = new File(String.valueOf(latestRelease) + "/index.html");
         FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
 
 
         // Get folders from latest release
-        File newExamples = new File(System.getProperty("user.dir") + "/myblog/cf/examples");
+        File newExamples = new File(System.getProperty("user.dir") + "/cf/examples");
         if(newExamples.exists()){
             FileUtils.forceDelete(newExamples);
         }
-        File newManual = new File(System.getProperty("user.dir") + "/myblog/cf/manual");
+        File newManual = new File(System.getProperty("user.dir") + "/cf/manual");
         if(newManual.exists()){
             FileUtils.forceDelete(newManual);
         }
-        File newTutorial = new File(System.getProperty("user.dir") + "/myblog/cf/tutorial");
+        File newTutorial = new File(System.getProperty("user.dir") + "/cf/tutorial");
         if(newTutorial.exists()){
             FileUtils.forceDelete(newTutorial);
         }
-        File newChangelog = new File(System.getProperty("user.dir") + "/myblog/cf/CHANGELOG.md");
+        File newChangelog = new File(System.getProperty("user.dir") + "/cf/CHANGELOG.md");
         if(newChangelog.exists()){
             FileUtils.forceDelete(newChangelog);
         }
-        File newJavadoc = new File(System.getProperty("user.dir") + "/myblog/cf/api");
+        File newJavadoc = new File(System.getProperty("user.dir") + "/cf/api");
         if(newJavadoc.exists()){
             FileUtils.forceDelete(newJavadoc);
         }
@@ -287,7 +287,7 @@ public class Main {
     }
 
     static void getAFU() throws IOException {
-        File directoryPath = new File(System.getProperty("user.dir") + "/myblog/afu");
+        File directoryPath = new File(System.getProperty("user.dir") + "/afu");
 
         // Get list of framework releases
         URL listReleasesURL = new URL("https://api.github.com/repos/eisop/annotation-tools/releases");
@@ -331,7 +331,7 @@ public class Main {
             System.out.println("Downloading " + String.valueOf(FILE_TEST));
             System.out.println("");
 
-            // Unzip downloaded assets, move them to /myblog/cf
+            // Unzip downloaded assets, move them to /cf
             File unzippedFile = new File(String.valueOf(LatestAssetsData.get("name")).substring(0, String.valueOf(LatestAssetsData.get("name")).length() - 4));
             try {
                 ZipFile zipFile = new ZipFile(FILE_TEST);
@@ -363,7 +363,7 @@ public class Main {
 
 
         // Re-generate cf/index.html with latest release
-        File newHTML = new File(System.getProperty("user.dir") + "/myblog/cf/index.html");
+        File newHTML = new File(System.getProperty("user.dir") + "/cf/index.html");
 
         String htmlString = FileUtils.readFileToString(newHTML);
 
