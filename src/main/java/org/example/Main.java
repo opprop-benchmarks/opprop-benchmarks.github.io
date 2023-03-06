@@ -406,9 +406,4 @@ public class Main {
         return month + " " + day + ", " + year;
     }
 
-   // Move architect theme to cf/index.html as well
-   // Markdown instead of HTML
-   // Is UnknnownInitialization allowed on fields?
-
-
 }
