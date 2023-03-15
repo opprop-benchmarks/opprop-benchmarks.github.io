@@ -384,14 +384,6 @@ public class Main {
         }
         FileUtils.writeStringToFile(newHTML, htmlString);
 
-
-
-
-        // Copy cf/index.html to global for GitHub Pages
-//        File globalIndex = new File(System.getProperty("user.dir") + "/index.html");
-//        FileUtils.copyFile(newHTML, globalIndex);
-
-
     }
 
     static String getReadableDate(String autoDate){
