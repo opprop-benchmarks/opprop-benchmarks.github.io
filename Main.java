@@ -26,10 +26,22 @@ public class Main {
         URL listReleasesURL = new URL("https://api.github.com/repos/eisop/checker-framework/releases");
         JSONArray frameworkReleases = getAPIResponse(listReleasesURL, "GET");
 
+        File releaseFile = new File(System.getProperty("user.dir") + "/cf/releases/releases.md");
+        String releaseFileHTML = "---\n" +
+                "layout: default\n" +
+                "title: Releases\n" +
+                "---\n" +
+                "![Checker Framework logo](../CFLogo.png)\n" +
+                "Previous Checker Framework Releases\n" +
+                "=====================\n";
+
+
+
         // Loop through list of framework releases
         for (int i = 0; i < frameworkReleases.size(); i++) {
 
             JSONObject LatestReleaseData = (JSONObject) frameworkReleases.get(i);
+            releaseFileHTML += "[" + String.valueOf(((JSONObject) frameworkReleases.get(i)).get("tag_name")) + "](../" + String.valueOf(((JSONObject) frameworkReleases.get(i)).get("tag_name")) + "/index.html)\n";
 
             // Get data on release assets
             JSONObject LatestAssetsData = (JSONObject)((((JSONArray)((JSONObject) frameworkReleases.get(i)).get("assets")).get(0)));
@@ -46,13 +58,15 @@ public class Main {
             // Check if we've already downloaded this release
             String contents[] = directoryPath.list();
             boolean alreadyDownloaded = false;
-            for(int j = 0; j < contents.length; j++){
-                //System.out.println(contents[j]);
-                if(String.valueOf(contents[j]).equals(String.valueOf(FILE_TEST))){
-                    alreadyDownloaded = true;
-                    System.out.println("Release " + String.valueOf(FILE_TEST) + " already downloaded");
-                    System.out.println("");
-                    break;
+            if(contents != null) {
+                for(int j = 0; j < contents.length; j++){
+                    //System.out.println(contents[j]);
+                    if(String.valueOf(contents[j]).equals(String.valueOf(FILE_TEST))){
+                        alreadyDownloaded = true;
+                        System.out.println("Release " + String.valueOf(FILE_TEST) + " already downloaded");
+                        System.out.println("");
+                        break;
+                    }
                 }
             }
             if(alreadyDownloaded){
@@ -134,7 +148,42 @@ public class Main {
             File releaseArchiveHTML = new File(System.getProperty("user.dir") + "/cf/releases/" + String.valueOf(releaseFolder).split("/", 0)[String.valueOf(releaseFolder).split("/", 0).length-1] + ".html");
             FileUtils.copyFile(newHTML, releaseArchiveHTML);
 
+//            // Set the path to the directory to search
+//            String directoryPath = "/path/to/directory";
+
+            // Find the subdirectories and files to move
+            String examplesString = String.valueOf(releaseFolder) + "/docs/examples";
+            File examplesDirectory = new File(examplesString);
+            String manualString = String.valueOf(releaseFolder) + "/docs/manual";
+            File manualDirectory = new File(manualString);
+            String tutorialString = String.valueOf(releaseFolder) + "/docs/tutorial";
+            File tutorialDirectory = new File(tutorialString);
+            String changeLogString = String.valueOf(releaseFolder) + "/docs/CHANGELOG.md";
+            File changelogFile = new File(changeLogString);
+            String logoString = String.valueOf(releaseFolder) + "/tutorial/CFLogo.png";
+            File logoFile = new File(logoString);
+
+            // Move the subdirectories and files to the root of the directory
+            if (examplesDirectory.exists()) {
+                FileUtils.moveDirectoryToDirectory(examplesDirectory, releaseFolder, true);
+            }
+            if (manualDirectory.exists()) {
+                FileUtils.moveDirectoryToDirectory(manualDirectory, releaseFolder, true);
+            }
+            if (tutorialDirectory.exists()) {
+                FileUtils.moveDirectoryToDirectory(tutorialDirectory, releaseFolder, true);
+            }
+            if (changelogFile.exists()) {
+                FileUtils.moveFileToDirectory(changelogFile, releaseFolder, true);
+            }
+            if (logoFile.exists()) {
+                FileUtils.copyFileToDirectory(logoFile, releaseFolder);
+            }
+
         }
+
+        // Write HTML to releases/releases.md
+        FileUtils.writeStringToFile(releaseFile, releaseFileHTML);
 
         // Re-generate cf/index.html with latest release
         File globalIndexHTML = new File(String.valueOf(directoryPath) + "/index.html");
@@ -169,10 +218,10 @@ public class Main {
             FileUtils.forceDelete(newJavadoc);
         }
 
-        File latestExamples = new File(String.valueOf(latestRelease) + "/docs/examples");
-        File latestManual = new File(String.valueOf(latestRelease) + "/docs/manual");
-        File latestTutorial = new File(String.valueOf(latestRelease) + "/docs/tutorial");
-        File latestChangelog = new File(String.valueOf(latestRelease) + "/docs/CHANGELOG.md");
+        File latestExamples = new File(String.valueOf(latestRelease) + "/examples");
+        File latestManual = new File(String.valueOf(latestRelease) + "/manual");
+        File latestTutorial = new File(String.valueOf(latestRelease) + "/tutorial");
+        File latestChangelog = new File(String.valueOf(latestRelease) + "/CHANGELOG.md");
         File latestJavadoc = new File(String.valueOf(latestRelease) + "/api");
 
 
@@ -348,6 +397,5 @@ public class Main {
 
         return month + " " + day + ", " + year;
     }
-
 
 }
