@@ -21,6 +21,15 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         File directoryPath = new File(System.getProperty("user.dir") + "/cf");
+        if (!directoryPath.exists()) {
+            if (directoryPath.mkdirs()) {
+                System.out.println("Folder created successfully at: " + directoryPath);
+            } else {
+                System.out.println("Failed to create folder at: " + directoryPath);
+            }
+        } else {
+            System.out.println("Folder already exists at: " + directoryPath);
+        }
 
         // Get list of framework releases
         URL listReleasesURL = new URL("https://api.github.com/repos/eisop/checker-framework/releases");
@@ -89,6 +98,7 @@ public class Main {
             } catch (ZipException e) {
                 e.printStackTrace();
             }
+
             FileUtils.moveFileToDirectory(FILE_TEST, directoryPath, false);
             FileUtils.moveDirectoryToDirectory(unzippedFile, directoryPath, false);
 
@@ -288,6 +298,15 @@ public class Main {
 
     static void getAFU() throws IOException {
         File directoryPath = new File(System.getProperty("user.dir") + "/afu");
+        if (!directoryPath.exists()) {
+            if (directoryPath.mkdirs()) {
+                System.out.println("Folder created successfully at: " + directoryPath);
+            } else {
+                System.out.println("Failed to create folder at: " + directoryPath);
+            }
+        } else {
+            System.out.println("Folder already exists at: " + directoryPath);
+        }
 
         // Get list of framework releases
         URL listReleasesURL = new URL("https://api.github.com/repos/eisop/annotation-tools/releases");
