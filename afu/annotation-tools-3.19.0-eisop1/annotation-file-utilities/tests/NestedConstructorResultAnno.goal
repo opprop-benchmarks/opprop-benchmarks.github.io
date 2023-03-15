@@ -1,5 +1,0 @@
-public class NestedConstructorResultAnno {
-
-  class InnerClass {@A
-public InnerClass() { super(); }}
-}
