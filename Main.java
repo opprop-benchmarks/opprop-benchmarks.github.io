@@ -1,4 +1,4 @@
-package org.example;
+package org.eisop;
 
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
