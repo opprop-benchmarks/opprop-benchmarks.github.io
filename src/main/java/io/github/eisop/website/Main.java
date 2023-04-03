@@ -90,7 +90,7 @@ public class Main {
             try {
                 ZipFile zipFile = new ZipFile(FILE_TEST);
                 if (zipFile.isEncrypted()) {
-                    //zipFile.setPassword();
+                    throw new RuntimeException("Encountered an encrypted zip file, which was not expected.");
                 }
                 zipFile.extractAll(String.valueOf(LatestAssetsData.get("name")).substring(0, String.valueOf(LatestAssetsData.get("name")).length() - 4));
             } catch (ZipException e) {
