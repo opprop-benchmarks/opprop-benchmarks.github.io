@@ -266,7 +266,7 @@ public class Main {
                                 + "/cf/"
                                 + String.valueOf(
                                         ((JSONObject) frameworkReleases.get(0)).get("tag_name")));
-        File latestReleaseHTML = new File(String.valueOf(latestRelease) + "/index.html");
+        File latestReleaseHTML = new File(String.valueOf(latestRelease) + "/index.md");
         FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
 
         // Get folders from latest release
