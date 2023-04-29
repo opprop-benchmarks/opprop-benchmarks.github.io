@@ -166,12 +166,12 @@ public class Main {
             // "/docs/tutorial/index.html");
             //            FileUtils.moveFileToDirectory(releaseHTML, releaseFolder, false);
 
-            File newHTML = new File(releaseFolder + "/index.html");
+            File newHTML = new File(releaseFolder + "/index.md");
             if (newHTML.exists()) {
                 FileUtils.forceDelete(newHTML);
             }
 
-            File htmlTemplateFile = new File(System.getProperty("user.dir") + "/template.html");
+            File htmlTemplateFile = new File(System.getProperty("user.dir") + "/template.md");
             String htmlString = FileUtils.readFileToString(htmlTemplateFile);
             // $LatestCheckerFrameworkReleaseDownloadLink, $LatestCheckerFrameworkReleaseZip,
             // $LatestCheckerFrameworkReleaseDate
@@ -255,7 +255,7 @@ public class Main {
         FileUtils.writeStringToFile(releaseFile, releaseFileHTML);
 
         // Re-generate cf/index.html with latest release
-        File globalIndexHTML = new File(String.valueOf(directoryPath) + "/index.html");
+        File globalIndexHTML = new File(String.valueOf(directoryPath) + "/index.md");
         if (globalIndexHTML.exists()) {
             FileUtils.forceDelete(globalIndexHTML);
         }
@@ -459,7 +459,7 @@ public class Main {
         System.out.println("Latest release: " + String.valueOf(latestRelease));
 
         // Re-generate cf/index.html with latest release
-        File newHTML = new File(System.getProperty("user.dir") + "/cf/index.html");
+        File newHTML = new File(System.getProperty("user.dir") + "/cf/index.md");
 
         String htmlString = FileUtils.readFileToString(newHTML);
 
