@@ -171,7 +171,7 @@ public class Main {
                 FileUtils.forceDelete(newHTML);
             }
 
-            File htmlTemplateFile = new File(System.getProperty("user.dir") + "/template.md");
+            File htmlTemplateFile = new File(System.getProperty("user.dir") + "/cf-template.md");
             String htmlString = FileUtils.readFileToString(htmlTemplateFile);
             // $LatestCheckerFrameworkReleaseDownloadLink, $LatestCheckerFrameworkReleaseZip,
             // $LatestCheckerFrameworkReleaseDate
