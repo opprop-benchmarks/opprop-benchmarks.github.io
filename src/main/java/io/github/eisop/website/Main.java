@@ -502,6 +502,26 @@ public class Main {
             FileUtils.forceDelete(newHTML);
         }
         FileUtils.writeStringToFile(newHTML, htmlString);
+
+        // Re-generate afu/annotation-file-utilities.md with latest release
+        File afuTemplate = new File(System.getProperty("user.dir") + "/afu-template.md");
+        File newMD = new File(System.getProperty("user.dir") + "/afu/annotation-file-utilities.md");
+        String mdString = FileUtils.readFileToString(afuTemplate);
+
+        String LatestAnnotationFileUtilitiesRelease = String.valueOf(latestRelease).split("-")[String.valueOf(latestRelease).split("-").length - 2];
+
+
+        mdString = mdString.replace("$LatestAnnotationFileUtilitiesReleaseDate", LatestAnnotationFileUtilitiesReleaseDate);
+        mdString = mdString.replace("$LatestAnnotationFileUtilitiesReleaseZip", LatestAnnotationFileUtilitiesReleaseZip);
+        mdString = mdString.replace("$LatestAnnotationFileUtilitiesReleaseDownloadLink", LatestAnnotationFileUtilitiesReleaseZip);
+        mdString = mdString.replace("$LatestAnnotationFileUtilitiesRelease", String.valueOf(LatestAnnotationFileUtilitiesRelease));
+
+        if (newMD.exists()) {
+            FileUtils.forceDelete(newMD);
+        }
+        newMD.createNewFile();
+        FileUtils.writeStringToFile(newMD, mdString);
+
     }
 
     static String getReadableDate(String autoDate) {
