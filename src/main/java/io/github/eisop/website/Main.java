@@ -456,6 +456,18 @@ public class Main {
                                 + "/annotation-file-utilities/annotation-file-utilities.html");
         FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
 
+        File latestFormatHTML =
+                new File(
+                        String.valueOf(latestRelease)
+                                + "/annotation-file-utilities/annotation-file-format.html");
+        FileUtils.copyFileToDirectory(latestFormatHTML, directoryPath);
+
+        File latestFormatPDF =
+                new File(
+                        String.valueOf(latestRelease)
+                                + "/annotation-file-utilities/annotation-file-format.pdf");
+        FileUtils.copyFileToDirectory(latestFormatPDF, directoryPath);
+
         System.out.println("Latest release: " + String.valueOf(latestRelease));
 
         // Re-generate cf/index.html with latest release
