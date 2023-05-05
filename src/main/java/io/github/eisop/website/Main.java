@@ -450,11 +450,11 @@ public class Main {
                                         String.valueOf(String.valueOf(files[files.length - 1]))
                                                         .length()
                                                 - 4));
-        File latestReleaseHTML =
-                new File(
-                        String.valueOf(latestRelease)
-                                + "/annotation-file-utilities/annotation-file-utilities.html");
-        FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
+//        File latestReleaseHTML =
+//                new File(
+//                        String.valueOf(latestRelease)
+//                                + "/annotation-file-utilities/annotation-file-utilities.html");
+//        FileUtils.copyFileToDirectory(latestReleaseHTML, directoryPath);
 
         File latestFormatHTML =
                 new File(
