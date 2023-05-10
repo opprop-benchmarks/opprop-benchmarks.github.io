@@ -17,4 +17,4 @@ jobs:
         env:
           key: main
           branches: gh-pages
-          files: template.html template.md README.md index.markdown 404.html src/main/java/io/github/eisop/website/Main.java
+          files: template.html template.md README.md index.markdown 404.html src/main/java/io/github/eisop/website/EisopSiteGenerator.java

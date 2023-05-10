@@ -6,3 +6,5 @@ vendor
 .vscode
 .idea
 Main.class
+target/
+.DS_Store
